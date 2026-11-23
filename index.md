@@ -1,8 +1,8 @@
 ---
 layout: home
-title: FPGA VGA Driver Project
+title: South African Flag
 tags: fpga vga verilog
-categories: demo
+categories: Project
 ---
 
 Add a short welcome message or introduction here. Aim to get the viewer interested in what follows! Guideline: 1 or 2 sentences. 
