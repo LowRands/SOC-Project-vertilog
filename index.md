@@ -104,16 +104,23 @@ function [4:0] glyph(input [3:0] ch, input [2:0] r);
         9: case (r) 0:glyph=5'b01110; 6:glyph=5'b01110; default:glyph=5'b00100; endcase //I
         10: case (r) 0:glyph=5'b01110; 6:glyph=5'b01110; 1:glyph=5'b10001;
                      5:glyph=5'b10001; default:glyph=5'b10000; endcase //C
-        default: glyph = 5'b00000;                 
+        default: glyph = 5'b00000; //space                
     endcase
 endfunction
 ```
+My first attempts had bugs that taught me about the hardware arithmetic. Expressions like row/2 - 20 wrapped around to huge values because Verilog treats them as unsigned, which made parts of the shape disappear, so I rewrote the comparisons to use only addition. I also had to fix the drawing order, and to correct the triangle, whose slope did not match the arms.
 
 ### **Simulation**
-Show how you simulated your own design. Are there any things to note? Demonstrate your understanding. Add a screenshot. Guideline: 1-2 short paragraphs.
+The important thing about my design is timing. VGASync registers hsync, vsync and vid_on, so they appear one clock after the counters change. My colour module also registers its output, so the colour for a pixel also appears one clock later. Because both are delayed by exactly one cycle, the colours stay lined up with the sync signals and vid_on, and the image is not shifted.
+
+In simulation the waving logic is hard to observe directly, because phase only changes every 2^20 clocks (about 42 ms of simulated time). To see it change in a reasonable simulation time, the counter width can temporarily be reduced, for example to tick[3:0], and then restored before synthesis.
 
 ### **Synthesis**
-Describe the synthesis & implementation outputs for your design, are there any differences to that of the original design? Guideline 1-2 short paragraphs.
+Compared with the template, my design uses more logic because of the many comparisons for the flag regions, the multiplication for the wave offset, the font lookup and the divide by 24 used to find which letter is being drawn. The divider is by a constant, so it is built from ordinary logic rather than a full divider. The clock, sync generator and I/O are unchanged from the template, apart from the extra button input, which needed its own line in the constraints file:
+```
+set_property PACKAGE_PIN U18 [get_ports btnC]
+set_property IOSTANDARD LVCMOS33 [get_ports btnC]
+```
 
 ### **Demonstration**
 The flag displays correctly on the monitor, with the text in the green band, and it waves while the centre button is held.
