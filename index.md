@@ -1,10 +1,9 @@
 ---
 layout: home
-title: South African Flag <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/72x72/1f1ff-1f1e6.png" height="40" alt="">
 tags: fpga vga verilog
 categories: Project
 ---
-
+title: South African Flag <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/72x72/1f1ff-1f1e6.png" height="40" alt="">
 Add a short welcome message or introduction here. Aim to get the viewer interested in what follows! Guideline: 1 or 2 sentences. 
 
 I am adding a test sentence here on 12/10/2026.
