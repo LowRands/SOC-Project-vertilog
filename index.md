@@ -72,7 +72,7 @@ if (row_w < 240) {red_next, green_next, blue_next} = 12'hD43;
 ```
 The waving effect works by shifting the row used for each column. A counter advances a phase value roughly every 42 ms while the button is held, and a 16-entry half-sine lookup table gives a vertical offset that travels across the screen. 
 The offset is multiplied by col, so the left edge stays pinned like a flagpole and the wave grows towards the right; all the flag geometry then uses the shifted row, row_w. 
-The button is passed through a two-flip-flop synchroniser in VGATop because it is asynchronous to the 25 MHz clock. The text uses a small 5x7 bitmap font for just the letters needed, scaled up four times, and because it also uses row_w it waves with the flag.
+The button is passed through a two-flip-flop synchroniser in VGATop because it is asynchronous to the 25 MHz clock. 
 ```
 function [4:0] half_sine(input [3:0] i);
     case (i)
@@ -84,6 +84,27 @@ function [4:0] half_sine(input [3:0] i);
         4'd10: half_sine = 14;  4'd11: half_sine = 12;
         4'd12: half_sine = 11;  4'd13: half_sine = 8;
         4'd14: half_sine = 6;   default: half_sine = 3;
+    endcase
+endfunction
+```
+The text uses a small 5x7 bitmap font for just the letters needed, scaled up four times, and because it also uses row_w it waves with the flag.
+```
+function [4:0] glyph(input [3:0] ch, input [2:0] r);
+    case (ch)
+        0: case (r) 0:glyph=5'b01111; 1:glyph=5'b10000; 2:glyph=5'b10000; 3:glyph=5'b01110;
+                    4:glyph=5'b00001; 5:glyph=5'b00001; default:glyph=5'b11110; endcase //S
+        1: case (r) 0:glyph=5'b01110; 6:glyph=5'b01110; default:glyph=5'b10001; endcase //O
+        2: case (r) 6:glyph=5'b01110; default:glyph=5'b10001; endcase //U
+        3: case (r) 0:glyph=5'b11111; default:glyph=5'b00100; endcase //T
+        4: case (r) 3:glyph=5'b11111; default:glyph=5'b10001; endcase //H
+        6: case (r) 0:glyph=5'b01110; 3:glyph=5'b11111; default:glyph=5'b10001; endcase //A
+        7: case (r) 0:glyph=5'b11111; 3:glyph=5'b11110; default:glyph=5'b10000; endcase //F
+        8: case (r) 0:glyph=5'b11110; 3:glyph=5'b11110; 4:glyph=5'b10100; 
+                    5:glyph=5'b10010; default:glyph=5'b10001; endcase //R
+        9: case (r) 0:glyph=5'b01110; 6:glyph=5'b01110; default:glyph=5'b00100; endcase //I
+        10: case (r) 0:glyph=5'b01110; 6:glyph=5'b01110; 1:glyph=5'b10001;
+                     5:glyph=5'b10001; default:glyph=5'b10000; endcase //C
+        default: glyph = 5'b00000;                 
     endcase
 endfunction
 ```
