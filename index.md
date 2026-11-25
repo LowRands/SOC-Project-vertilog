@@ -59,7 +59,7 @@ For my own design I chose the flag of South Africa. It is a good challenge becau
 The official design specifies a 2:3 flag where the green Y band is one fifth of the height and the white and gold borders are one fifteenth each, with the arms of the Y running from the corners to the centre. Once the static flag worked, I added two extras: a waving animation while the centre button (btnC) is held, and the words "SOUTH AFRICA" in the green band. I was assisted by AI throughout this project as it was a completely new section of my software and electronic engineering studies.
 
 ### **Code Adaptation**
-I replaced the template's colour module with my own module, VGASouthAfrica and adapted VGATop. The flag is symmetric about its middle row, so I first calculate d, the distance from the middle row, which lets me describe only the top half. On the 640x480 screen the centre line of each Y arm runs from (0, 0) to (320, 240), a slope of 4/3, so the value ```X = 3*col + 4*d``` stays constant along every diagonal edge. 
+I replaced the template's colour module with my own module, VGASouthAfrica and adapted VGATop. The flag is symmetric about its middle row, so I first calculate d, the distance from the middle row, which lets me describe only the top half. On the 640x480 screen the centre line of each Y arm runs from (0, 0) to (320, 240), a slope of 4/3, so the value ``` X = 3*col + 4*d ``` stays constant along every diagonal edge. 
 ```
 wire [12:0] X = 3*col + 4*d;
 wire in_black = (X < 575);
@@ -158,7 +158,7 @@ Final result<br><br>
   
 **Week 2**: Drawing the flag
 - I uploaded a photo of the flag onto a grid website that allowed me to create a 640x480 grid, to see the coordinates of each colour on the flag.
-- I tried to have each colour be placed based on the column and the row, later changing it to just 1 value, using the value ```X = 3*col + 4*d```, which is constant along each diagonal edge, so each coloured band became a simple range.
+- I tried to have each colour be placed based on the column and the row, later changing it to just 1 value, using the value ``` X = 3*col + 4*d ```, which is constant along each diagonal edge, so each coloured band became a simple range.
 - By the end of week 2, the basic shape and correct colouring was complete.
   
 **Week 3**: Adding the wave effect
