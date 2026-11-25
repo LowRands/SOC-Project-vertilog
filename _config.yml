@@ -2,7 +2,6 @@
 title: System-on-Chip Design & Verification
 author:
   name: Ethan Lourens
-description: "A blog."
 
 # Build settings
 remote_theme: jekyll/minima
