@@ -127,17 +127,17 @@ Out of the many issues I ran into during this project, the two biggest problems 
 The flag displays correctly on the monitor, with the text "SOUTH AFRICA" in the green band, and it waves while the centre button is held.
 
 <img width="180" height="100" src="docs/assets/images/Attempt 1.jpeg">
-One of my first attempts
+One of my first attempts<br>
 <img width="180" height="100" src="docs/assets/images/Attempt 2.jpeg">
-A few attempts later. Getting the white
+A few attempts later. Getting the white<br>
 <img width="180" height="100" src="docs/assets/images/Attempt 3.jpeg">
-Getting green and white to stretch across the full screen
+Getting green and white to stretch across the full screen<br>
 <img width="180" height="100" src="docs/assets/images/Attempt 4.jpeg">
-Getting closer to the actual shape of the flag, needed to remove the white around the gold
+Getting closer to the actual shape of the flag, needed to remove the white around the gold<br>
 <img width="180" height="100" src="docs/assets/images/Attempt 5.jpeg">
-Change to the correct colours and got the shape corrected
+Change to the correct colours and got the shape corrected<br>
 <img width="180" height="100" src="docs/assets/images/Text Addition.jpeg">
-Added the text "SOUTH AFRICA"
+Added the text "SOUTH AFRICA"<br>
 <video controls width="640" height="320">
   <source src="https://lowrands.github.io/SOC-Project-vertilog/docs/assets/images/Project%20video.mp4" type="video/mp4">
 </video>
