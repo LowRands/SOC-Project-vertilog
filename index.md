@@ -20,6 +20,7 @@ This project was created in Vivado as an RTL project trageting the Basys 3 board
 - Program hardware over USB
 
 <img src="https://raw.githubusercontent.com/melgineer/fpga-vga-verilog/main/docs/assets/images/VGAPrjSum.png">
+<img src="https://raw.githubusercontent.com/melgineer/fpga-vga-verilog/main/docs/assets/images/VGAPrjSrcs.png">
 
 ### **Template Code**
 The template is split into three parts. 
@@ -39,17 +40,35 @@ else
 The design was simulated in Vivado's behavioural simulator by applying a clock and reset and watching the VGASync outputs. The key things to check are that hcount wraps at 800 and vcount at 525, that the active-low hsync and vsync pulses are 96 clocks and 2 lines long, and that vid_on is only high while row is below 480 and col is below 640. A full frame is 420,000 pixel clocks (about 16.8 ms), so the simulation has to run for at least that long to see a complete vsync cycle.
 
 ### **Synthesis**
-Describe the synthesis and implementation processes. Consider including 1/2 useful screenshot(s). Guideline: 1/2 short paragraphs.
+Synthesis converts the Verilog into a netlist of FPGA primitives (look-up tables, flip-flops and the MMCM clocking resource used by the Clocking Wizard). 
+Implementation then places those primitives on the chip and routes the connections between them, checking that every path meets the 40 ns period of the 25 MHz clock. Finally, a bitstream is generated and downloaded to the board. 
+The template design is small, so it uses only a tiny fraction of the Artix-7's resources.
 
 ### **Demonstration**
-Perhaps add a picture of your demo. Guideline: 1/2 sentences.
+The template displayed coloured stripes on the monitor at 640x480, 60 Hz.
 
 ## **My VGA Design Edit**
 For my own design I chose the flag of South Africa. It is a good challenge because, unlike stripes, it has diagonal edges, a triangle, and bands of different thicknesses that all have to line up. 
 The official design specifies a 2:3 flag where the green Y band is one fifth of the height and the white and gold borders are one fifteenth each, with the arms of the Y running from the corners to the centre. Once the static flag worked, I added two extras: a waving animation while the centre button (btnC) is held, and the words "SOUTH AFRICA" in the green band. 
 
 ### **Code Adaptation**
-Briefly show how you changed the template code to display a different image. Demonstrate your understanding. Guideline: 1-2 short paragraphs.
+I replaced the template's colour module with my own module, VGASouthAfrica. The flag is symmetric about its middle row, so I first calculate d, the distance from the middle row, which lets me describe only the top half. On the 640x480 screen the centre line of each Y arm runs from (0, 0) to (320, 240), a slope of 4/3, so the value X = 3*col + 4*d stays constant along every diagonal edge. 
+Each coloured band is then simply a range of X (for example the black triangle is X < 575), and the horizontal bar of the Y is a range of d. The colour of each pixel is chosen by drawing the regions in order, with later regions overwriting earlier ones: background, red, blue, white, green, text, gold, then black. I also tuned the 4-bit colours to be closer to the official shades (for example 12'h074 for green and 12'hD43 for red) rather than pure primary colours.
+```
+wire [12:0] X = 3*col + 4*d;
+wire in_black = (X < 575);
+wire in_gold  = (X >= 575) && (X < 729);
+wire in_green = ((X >= 729) && (X < 1191)) || ((d < 48) && (X >= 729));
+wire in_white = ((X >= 1191) && (X < 1345)) || ((d < 80) && (X >= 729));
+
+if (row_w < 240) {red_next, green_next, blue_next} = 12'hD43;
+    else             {red_next, green_next, blue_next} = 12'h018;
+    if (in_white) {red_next, green_next, blue_next} = 12'hFFF;
+    if (in_green) {red_next, green_next, blue_next} = 12'h074;
+    if (in_text)  {red_next, green_next, blue_next} = 12'hFFF;
+    if (in_gold)  {red_next, green_next, blue_next} = 12'hFB2;
+    if (in_black) {red_next, green_next, blue_next} = 12'h000;
+```
 
 ### **Simulation**
 Show how you simulated your own design. Are there any things to note? Demonstrate your understanding. Add a screenshot. Guideline: 1-2 short paragraphs.
@@ -64,4 +83,4 @@ The flag displays correctly on the monitor, with the text in the green band, and
   <source src="https://lowrands.github.io/SOC-Project-vertilog/docs/assets/images/Project%20video.mp4" type="video/mp4">
 </video>
 
-<img src="https://raw.githubusercontent.com/melgineer/fpga-vga-verilog/main/docs/assets/images/VGAPrjSrcs.png">
+
