@@ -23,9 +23,16 @@ This project was created in Vivado as an RTL project trageting the Basys 3 board
 
 ### **Template Code**
 The template is split into three parts. 
-1. VGATop is the top-level module: it instantiates the Clocking Wizard, the sync generator VGASync and VGASouthAfrica, and wires them together.
+1. VGATop is the top-level module: it instantiates the Clocking Wizard, the sync generator VGASync and a colour module, and wires them together.
 2. VGASync uses two counters, hcount (0 to 799) and vcount (0 to 524), to step through every pixel position in a frame. From these it produces the hsync and vsync pulses, a vid_on signal that is high only inside the visible 640x480 area, and the current row and col.
-3. The VGASouthAfrica module takes row and col and decides the 12-bit colour (4 bits each for red, green and blue) of that pixel.
+3. The colour module takes row and col and decides the 12-bit colour (4 bits each for red, green and blue) of that pixel.
+
+A VGA monitor has no frame memory of its own. The image is drawn one pixel at a time, left to right and top to bottom, 60 times a second. Each line is 800 pixel clocks long: 640 visible pixels, then a 16-pixel front porch, a 96-pixel sync pulse and a back porch. Each frame is 525 lines: 480 visible, then a 10-line front porch, a 2-line sync pulse and a back porch. 800 x 525 x 60 Hz gives the 25 MHz pixel clock. The colour outputs must be zero during blanking, so VGATop gates them with vid_on. This means the whole picture comes down to one question answered in logic: given this row and column, what colour should the pixel be?
+
+if (hcount < HDISP && vcount < VDISP)
+    vid_on <= 1;
+else
+    vid_on <= 0;
 
 ### **Simulation**
 The design was simulated in Vivado's behavioural simulator by applying a clock and reset and watching the VGASync outputs. The key things to check are that hcount wraps at 800 and vcount at 525, that the active-low hsync and vsync pulses are 96 clocks and 2 lines long, and that vid_on is only high while row is below 480 and col is below 640. A full frame is 420,000 pixel clocks (about 16.8 ms), so the simulation has to run for at least that long to see a complete vsync cycle.
