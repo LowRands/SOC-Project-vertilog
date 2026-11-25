@@ -60,7 +60,7 @@ Describe the synthesis & implementation outputs for your design, are there any d
 ### **Demonstration**
 The flag displays correctly on the monitor, with the text in the green band, and it waves while the centre button is held.
 
-<video controls width="640" height="300">
+<video controls width="640" height="320">
   <source src="https://lowrands.github.io/SOC-Project-vertilog/docs/assets/images/Project%20video.mp4" type="video/mp4">
 </video>
 
