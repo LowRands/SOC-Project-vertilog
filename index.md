@@ -165,7 +165,7 @@ Final result<br><br>
 - I added the button.
 - Created a phase counter that moves a sine-shaped offset across the screen, which shifts each column up or down. The offset is scaled by the column number so that the left hand side stays pinned like a flagpole.
 - Connected it to the button, the flag waves when the center button is pressed and goes flat when the button is released.
-- 
+
 **Week 4**: Write up and report
 - Wrote up my experience and results throughout this project with the help of AI
 - Added photos showing my progress, captions explaining and a video which showed the result of the completed project.
