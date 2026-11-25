@@ -125,7 +125,8 @@ Out of the many issues I ran into during this project, the two biggest problems 
 
 ### **Demonstration**
 The flag displays correctly on the monitor, with the text "SOUTH AFRICA" in the green band, and it waves while the centre button is held.
-<img width="400" height="320" src="docs/assets/images/Attempt 1.jpeg">
+
+<img width="200" height="100" src="docs/assets/images/Attempt 1.jpeg">
 <video controls width="640" height="320">
   <source src="https://lowrands.github.io/SOC-Project-vertilog/docs/assets/images/Project%20video.mp4" type="video/mp4">
 </video>
