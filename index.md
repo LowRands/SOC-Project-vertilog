@@ -9,6 +9,7 @@ body { background-color: #3179b8; color: #e8f5e9}
 .site-footer p { color: black; }
 img { max-width: 100%; }
 video { max-width: 100%; height: auto; }
+p code, li code { color: black !important; }
 </style>
 
 <h1><b>Waving South African Flag</b> <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/72x72/1f1ff-1f1e6.png" height="40"></h1>
