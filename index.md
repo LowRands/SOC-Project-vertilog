@@ -149,4 +149,24 @@ Added the text "SOUTH AFRICA"<br><br>
 </video>
 Final result<br><br>
 
+### **Progress Report**
+**Week 1**: Template setup and understanding the VGA interface
+- I set up a Github repository and Github page for this project.
+- I set up the Vivado project for the Basys 3, added the template sources (VGATop, VGASync and the colour module) and the constraints file, and generated a Clocking Wizard IP to produce the 25 MHz pixel clock.
+- I chose a design I was going to display on the VGA screen, the South African flag.
+  
+**Week 2**: Drawing the flag
+- I uploading a photo of the flag onto a grid website that allowed me to create a 640x480 grid, to see the coordinates of each colour on the flag.
+- I tried to have each colour be placed based on the column and the row, later changing it to just 1 value, using the value X = 3*col + 4*d, which is constant along each diagonal edge, so each coloured band became a simple range.
+- By the end of week 2, the basic shape and correct colouring was complete.
+  
+**Week 3**: Adding the wave affect
+- Created the text on the green band.
+- I added the button.
+- Created a phase counter that moves a sine-shaped offset across the screen, which shifts each column up or down. The offset is scaled by the column number so that the left hand side stays pinned like a flagpole.
+- Connected it to the button, the flag waves when the center button is pressed and goes flat when the button is released.
+- 
+**Week 4**: Write up and report
+- Wrote up my experience and results throughout this project with the help of AI
+- Added photos showing my progress, captions explaining and a video which showed the result of the completed project.
 
