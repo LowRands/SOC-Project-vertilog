@@ -3,10 +3,10 @@ layout: home
 tags: fpga vga verilog
 categories: Project
 ---
+<style>main h1:first-of-type { display: none; }</style>
 # South African Flag <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/72x72/1f1ff-1f1e6.png" height="40" alt="">
-Add a short welcome message or introduction here. Aim to get the viewer interested in what follows! Guideline: 1 or 2 sentences. 
 
-I am adding a test sentence here on 12/10/2026.
+I used a Basys 3 FPGA board and Verilog to draw the South African flag on a VGA monitor, then took it further by making the flag wave at the press of a button and writing "SOUTH AFRICA" across the green band. This post covers the template I started from, how I adapted it, and the problems I ran into along the way.
 
 ## **Template VGA Design**
 ### **Project Set-Up**
