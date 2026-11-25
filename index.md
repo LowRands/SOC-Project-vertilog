@@ -5,7 +5,7 @@ categories: Project
 ---
 <style>
 body { background-color: #3179b8; color: #e8f5e9}
-    .site-footer .p-name { color: black; }
+    .site-footer p { color: black; }
 img { max-width: 100%; }
 video { max-width: 100%; height: auto; }
 </style>
