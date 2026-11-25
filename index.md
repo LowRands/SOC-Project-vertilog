@@ -51,3 +51,7 @@ A bullet list can be rendered as follows:
 Images can be added by uploading them to the repository in a /docs/assets/images folder, and then rendering using HTML via githubusercontent.com as shown in the example below.
 
 <img src="https://raw.githubusercontent.com/melgineer/fpga-vga-verilog/main/docs/assets/images/VGAPrjSrcs.png">
+
+<video controls width="640">
+  <source src="{{ site.baseurl }}/assets/demo.mp4" type="video/mp4">
+</video>
