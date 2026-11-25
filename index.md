@@ -11,18 +11,21 @@ I used a Basys 3 FPGA board and Verilog to draw the South African flag on a VGA 
 ## **Template VGA Design**
 ### **Project Set-Up**
 This project was created in Vivado as an RTL project trageting the Basys 3 board. The design flow was:
-- add the verilog sources (VGATop, VGASync and VGASouthAfrica)
-- add the Basys 3 constraint file
-- generate a CLocking wizard IP (clk_wiz_2) to produce a 25 MHz pixel clock from the board's 100 MHz oscillator
-- run synthesis
-- run implementation
-- generate bitstream
-- program hardware over USB
+- Add the verilog sources (VGATop, VGASync and VGASouthAfrica)
+- Add the Basys 3 constraint file
+- Generate a CLocking wizard IP (clk_wiz_2) to produce a 25 MHz pixel clock from the board's 100 MHz oscillator
+- Run synthesis
+- Run implementation
+- Generate bitstream
+- Program hardware over USB
 
 <img src="https://raw.githubusercontent.com/melgineer/fpga-vga-verilog/main/docs/assets/images/VGAPrjSum.png">
 
 ### **Template Code**
-Outline the structure and design of the Verilog code templates you were given. What do they do? Include reference to how a VGA interface works. Guideline: 2/3 short paragraphs, consider including screenshot(s).
+The template is split into three parts. 
+1. VGATop is the top-level module: it instantiates the Clocking Wizard, the sync generator VGASync and VGASouthAfrica, and wires them together.
+2. VGASync uses two counters, hcount (0 to 799) and vcount (0 to 524), to step through every pixel position in a frame. From these it produces the hsync and vsync pulses, a vid_on signal that is high only inside the visible 640x480 area, and the current row and col.
+3. The VGASouthAfrica module takes row and col and decides the 12-bit colour (4 bits each for red, green and blue) of that pixel.
 
 ### **Simulation**
 Explain the simulation process. Reference any important details, include a well-selected screenshot of the simulation. Guideline: 1/2 short paragraphs.
