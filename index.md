@@ -5,6 +5,8 @@ categories: Project
 ---
 <style>
 body { background-color: #2a6199; color: #e8f5e9}
+img { max-width: 100%; }
+video { max-width: 100%; height: auto; }
 </style>
 
 <h1><b>Waving South African Flag</b> <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/72x72/1f1ff-1f1e6.png" height="40" alt="South African flag"></h1>
@@ -129,19 +131,19 @@ Out of the many issues I ran into during this project, the two biggest problems 
 ### **Demonstration**
 The flag displays correctly on the monitor, with the text "SOUTH AFRICA" in the green band, and it waves while the centre button is held.
 
-<img width="180" height="100" src="docs/assets/images/Attempt 1.jpeg">
+<img src="docs/assets/images/Attempt 1.jpeg">
 One of my first attempts<br><br>
-<img width="180" height="100" src="docs/assets/images/Attempt 2.jpeg">
+<img src="docs/assets/images/Attempt 2.jpeg">
 A few attempts later. Getting the white<br><br>
-<img width="180" height="100" src="docs/assets/images/Attempt 3.jpeg">
+<img src="docs/assets/images/Attempt 3.jpeg">
 Getting green and white to stretch across the full screen<br><br>
-<img width="180" height="100" src="docs/assets/images/Attempt 4.jpeg">
+<img src="docs/assets/images/Attempt 4.jpeg">
 Getting closer to the actual shape of the flag, needed to remove the white around the gold<br><br>
-<img width="180" height="100" src="docs/assets/images/Attempt 5.jpeg">
+<img src="docs/assets/images/Attempt 5.jpeg">
 Change to the correct colours and got the shape corrected<br><br>
-<img width="180" height="100" src="docs/assets/images/Text Addition.jpeg">
+<img src="docs/assets/images/Text Addition.jpeg">
 Added the text "SOUTH AFRICA"<br><br>
-<video controls width="640" height="320">
+<video>
   <source src="https://lowrands.github.io/SOC-Project-vertilog/docs/assets/images/Project%20video.mp4" type="video/mp4">
 </video><br><br>
 Final result
