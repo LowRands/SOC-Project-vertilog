@@ -53,14 +53,15 @@ The official design specifies a 2:3 flag where the green Y band is one fifth of 
 
 ### **Code Adaptation**
 I replaced the template's colour module with my own module, VGASouthAfrica. The flag is symmetric about its middle row, so I first calculate d, the distance from the middle row, which lets me describe only the top half. On the 640x480 screen the centre line of each Y arm runs from (0, 0) to (320, 240), a slope of 4/3, so the value X = 3*col + 4*d stays constant along every diagonal edge. 
-Each coloured band is then simply a range of X (for example the black triangle is X < 575), and the horizontal bar of the Y is a range of d. The colour of each pixel is chosen by drawing the regions in order, with later regions overwriting earlier ones: background, red, blue, white, green, text, gold, then black. I also tuned the 4-bit colours to be closer to the official shades (for example 12'h074 for green and 12'hD43 for red) rather than pure primary colours.
 ```
 wire [12:0] X = 3*col + 4*d;
 wire in_black = (X < 575);
 wire in_gold  = (X >= 575) && (X < 729);
 wire in_green = ((X >= 729) && (X < 1191)) || ((d < 48) && (X >= 729));
 wire in_white = ((X >= 1191) && (X < 1345)) || ((d < 80) && (X >= 729));
-
+```
+Each coloured band is then simply a range of X (for example the black triangle is X < 575), and the horizontal bar of the Y is a range of d. The colour of each pixel is chosen by drawing the regions in order, with later regions overwriting earlier ones: background, red, blue, white, green, text, gold, then black. I also tuned the 4-bit colours to be closer to the official shades (for example 12'h074 for green and 12'hD43 for red) rather than pure primary colours.
+```
 if (row_w < 240) {red_next, green_next, blue_next} = 12'hD43;
     else             {red_next, green_next, blue_next} = 12'h018;
     if (in_white) {red_next, green_next, blue_next} = 12'hFFF;
@@ -68,6 +69,23 @@ if (row_w < 240) {red_next, green_next, blue_next} = 12'hD43;
     if (in_text)  {red_next, green_next, blue_next} = 12'hFFF;
     if (in_gold)  {red_next, green_next, blue_next} = 12'hFB2;
     if (in_black) {red_next, green_next, blue_next} = 12'h000;
+```
+The waving effect works by shifting the row used for each column. A counter advances a phase value roughly every 42 ms while the button is held, and a 16-entry half-sine lookup table gives a vertical offset that travels across the screen. 
+The offset is multiplied by col, so the left edge stays pinned like a flagpole and the wave grows towards the right; all the flag geometry then uses the shifted row, row_w. 
+The button is passed through a two-flip-flop synchroniser in VGATop because it is asynchronous to the 25 MHz clock. The text uses a small 5x7 bitmap font for just the letters needed, scaled up four times, and because it also uses row_w it waves with the flag.
+```
+function [4:0] half_sine(input [3:0] i);
+    case (i)
+        4'd0:  half_sine = 0;   4'd1:  half_sine = 3;
+        4'd2:  half_sine = 6;   4'd3:  half_sine = 8;
+        4'd4:  half_sine = 11;  4'd5:  half_sine = 12;
+        4'd6:  half_sine = 14;  4'd7:  half_sine = 15;
+        4'd8:  half_sine = 15;  4'd9:  half_sine = 15;
+        4'd10: half_sine = 14;  4'd11: half_sine = 12;
+        4'd12: half_sine = 11;  4'd13: half_sine = 8;
+        4'd14: half_sine = 6;   default: half_sine = 3;
+    endcase
+endfunction
 ```
 
 ### **Simulation**
