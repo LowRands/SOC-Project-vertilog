@@ -1,6 +1,6 @@
 ---
 layout: home
-title: South African Flag
+title: South African Flag 🇿🇦
 tags: fpga vga verilog
 categories: Project
 ---
