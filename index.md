@@ -1,4 +1,4 @@
- ---
+---
 layout: home
 tags: fpga vga verilog
 categories: Project
