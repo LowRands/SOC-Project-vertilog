@@ -53,6 +53,5 @@ Images can be added by uploading them to the repository in a /docs/assets/images
 <img src="https://raw.githubusercontent.com/melgineer/fpga-vga-verilog/main/docs/assets/images/VGAPrjSrcs.png">
 
 <video controls width="640">
-  <source src="{{ site.baseurl }}/docs/assets/images/Project%20video.mp4" type="video/mp4">
-  Your browser does not support video.
+  <source src="https://lowrands.github.io/SOC-Project-vertilog/docs/assets/images/Project%20video.mp4" type="video/mp4">
 </video>
