@@ -60,7 +60,7 @@ wire in_gold  = (X >= 575) && (X < 729);
 wire in_green = ((X >= 729) && (X < 1191)) || ((d < 48) && (X >= 729));
 wire in_white = ((X >= 1191) && (X < 1345)) || ((d < 80) && (X >= 729));
 ```
-Each coloured band is then simply a range of X (for example the black triangle is X < 575), and the horizontal bar of the Y is a range of d. The colour of each pixel is chosen by drawing the regions in order, with later regions overwriting earlier ones: background, red, blue, white, green, text, gold, then black. I also tuned the 4-bit colours to be closer to the official shades (for example 12'h074 for green and 12'hD43 for red) rather than pure primary colours.
+Each coloured band is then simply a range of X (for example the black triangle is X < 575), and the horizontal bar of the Y is a range of d. The colour of each pixel is chosen by drawing the regions in order, with later regions overwriting earlier ones: background, red, blue, white, green, text, gold, then black. I also researched and tuned the 4-bit colours to be closer to the official shades (for example 12'h074 for green and 12'hD43 for red) rather than pure primary colours.
 ```
 if (row_w < 240) {red_next, green_next, blue_next} = 12'hD43;
     else             {red_next, green_next, blue_next} = 12'h018;
@@ -108,7 +108,7 @@ function [4:0] glyph(input [3:0] ch, input [2:0] r);
     endcase
 endfunction
 ```
-My first attempts had bugs that taught me about the hardware arithmetic. Expressions like row/2 - 20 wrapped around to huge values because Verilog treats them as unsigned, which made parts of the shape disappear, so I rewrote the comparisons to use only addition. I also had to fix the drawing order, and to correct the triangle, whose slope did not match the arms.
+My first attempts had bugs. Expressions like row/2 - 20 wrapped around to huge values because Verilog treats them as unsigned, which made parts of the shape disappear, so I rewrote the comparisons to use only addition. I also had to fix the drawing order, and to correct the triangle, whose slope did not match the arms.
 
 ### **Simulation**
 The important thing about my design is timing. VGASync registers hsync, vsync and vid_on, so they appear one clock after the counters change. My colour module also registers its output, so the colour for a pixel also appears one clock later. Because both are delayed by exactly one cycle, the colours stay lined up with the sync signals and vid_on, and the image is not shifted.
@@ -121,9 +121,10 @@ Compared with the template, my design uses more logic because of the many compar
 set_property PACKAGE_PIN U18 [get_ports btnC]
 set_property IOSTANDARD LVCMOS33 [get_ports btnC]
 ```
+Out of the many issues I ran into during this project, the two biggest problems was a module name mismatch: my top level instantiated clk_wiz_0 but the IP in the project was called clk_wiz_2, I added 2 when I was changing the clock frequency to 25 MHz, removed clk_wiz_0 and clk_wiz_1 but kept clk_wiz_2, so synthesis failed with "module not found". The second was a "Spawn failed: The parameter is incorrect" error, caused by the project being stored inside a OneDrive folder that Vivado could not write to. Moving the project to a short local path without spaces fixed it.
 
 ### **Demonstration**
-The flag displays correctly on the monitor, with the text in the green band, and it waves while the centre button is held.
+The flag displays correctly on the monitor, with the text "SOUTH AFRICA" in the green band, and it waves while the centre button is held.
 
 <video controls width="640" height="320">
   <source src="https://lowrands.github.io/SOC-Project-vertilog/docs/assets/images/Project%20video.mp4" type="video/mp4">
