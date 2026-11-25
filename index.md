@@ -11,16 +11,16 @@ img { max-width: 100%; }
 video { max-width: 100%; height: auto; }
 </style>
 
-<h1><b>Waving South African Flag</b> <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/72x72/1f1ff-1f1e6.png" height="40" alt="South African flag"></h1>
+<h1><b>Waving South African Flag</b> <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/72x72/1f1ff-1f1e6.png" height="40"></h1>
 
 I used a Basys 3 FPGA board and Verilog to draw the South African flag on a VGA monitor, then took it further by making the flag wave at the press of a button and writing "SOUTH AFRICA" across the green band. This post covers the template I started from, how I adapted it, and the problems I ran into along the way.
 
 ## **Template VGA Design**
 ### **Project Set-Up**
-This project was created in Vivado as an RTL project trageting the Basys 3 board. The design flow was:
-- Add the verilog sources (VGATop, VGASync and VGASouthAfrica)
-- Add the Basys 3 constraint file
-- Generate a Clocking wizard IP (clk_wiz_2) to produce a 25 MHz pixel clock from the board's 100 MHz oscillator
+This project was created in Vivado as an RTL project targeting the Basys 3 board. The design flow was:
+- Add the Verilog sources (VGATop, VGASync and VGASouthAfrica)
+- Add the Basys 3 constraints file
+- Generate a Clocking Wizard IP (clk_wiz_2) to produce a 25 MHz pixel clock from the board's 100 MHz oscillator
 - Run synthesis
 - Run implementation
 - Generate bitstream
@@ -59,7 +59,7 @@ For my own design I chose the flag of South Africa. It is a good challenge becau
 The official design specifies a 2:3 flag where the green Y band is one fifth of the height and the white and gold borders are one fifteenth each, with the arms of the Y running from the corners to the centre. Once the static flag worked, I added two extras: a waving animation while the centre button (btnC) is held, and the words "SOUTH AFRICA" in the green band. I was assisted by AI throughout this project as it was a completely new section of my software and electronic engineering studies.
 
 ### **Code Adaptation**
-I replaced the template's colour module with my own module, VGASouthAfrica and adapted VGATop and VGASync. The flag is symmetric about its middle row, so I first calculate d, the distance from the middle row, which lets me describe only the top half. On the 640x480 screen the centre line of each Y arm runs from (0, 0) to (320, 240), a slope of 4/3, so the value X = 3*col + 4*d stays constant along every diagonal edge. 
+I replaced the template's colour module with my own module, VGASouthAfrica and adapted VGATop. The flag is symmetric about its middle row, so I first calculate d, the distance from the middle row, which lets me describe only the top half. On the 640x480 screen the centre line of each Y arm runs from (0, 0) to (320, 240), a slope of 4/3, so the value ```X = 3*col + 4*d``` stays constant along every diagonal edge. 
 ```
 wire [12:0] X = 3*col + 4*d;
 wire in_black = (X < 575);
@@ -67,10 +67,10 @@ wire in_gold  = (X >= 575) && (X < 729);
 wire in_green = ((X >= 729) && (X < 1191)) || ((d < 48) && (X >= 729));
 wire in_white = ((X >= 1191) && (X < 1345)) || ((d < 80) && (X >= 729));
 ```
-Each coloured band is then simply a range of X (for example the black triangle is X < 575), and the horizontal bar of the Y is a range of d. The colour of each pixel is chosen by drawing the regions in order, with later regions overwriting earlier ones: background, red, blue, white, green, text, gold, then black. I also researched and tuned the 4-bit colours to be closer to the official shades (for example 12'h074 for green and 12'hD43 for red) rather than pure primary colours.
+Each coloured band is then simply a range of X (for example the black triangle is X < 575), and the horizontal bar of the Y is a range of d. The colour of each pixel is chosen by drawing the regions in order, with later regions overwriting earlier ones: background (red top, blue bottom), white, green, text, gold, then black. I also researched and tuned the 4-bit colours to be closer to the official shades (for example 12'h074 for green and 12'hD43 for red) rather than pure primary colours.
 ```
-if (row_w < 240) {red_next, green_next, blue_next} = 12'hD43;
-    else             {red_next, green_next, blue_next} = 12'h018;
+    if (row_w < 240) {red_next, green_next, blue_next} = 12'hD43;
+        else{red_next, green_next, blue_next} = 12'h018;
     if (in_white) {red_next, green_next, blue_next} = 12'hFFF;
     if (in_green) {red_next, green_next, blue_next} = 12'h074;
     if (in_text)  {red_next, green_next, blue_next} = 12'hFFF;
@@ -128,7 +128,7 @@ Compared with the template, my design uses more logic because of the many compar
 set_property PACKAGE_PIN U18 [get_ports btnC]
 set_property IOSTANDARD LVCMOS33 [get_ports btnC]
 ```
-Out of the many issues I ran into during this project, the two biggest problems was a module name mismatch: my top level instantiated clk_wiz_0 but the IP in the project was called clk_wiz_2, I added 2 when I was changing the clock frequency to 25 MHz, removed clk_wiz_0 and clk_wiz_1 but kept clk_wiz_2, so synthesis failed with "module not found". The second was a "Spawn failed: The parameter is incorrect" error, caused by the project being stored inside a OneDrive folder that Vivado could not write to. Moving the project to a short local path without spaces fixed it.
+Out of the many issues I ran into during this project, the two biggest problems were a module name mismatch: my top level instantiated clk_wiz_0 but the IP in the project was called clk_wiz_2, I added 2 when I was changing the clock frequency to 25 MHz, removed clk_wiz_0 and clk_wiz_1 but kept clk_wiz_2, so synthesis failed with "module not found". The second was a "Spawn failed: The parameter is incorrect" error, caused by the project being stored inside a OneDrive folder that Vivado could not write to. Moving the project to a short local path without spaces fixed it.
 
 ### **Demonstration**
 The flag displays correctly on the monitor, with the text "SOUTH AFRICA" in the green band, and it waves while the centre button is held.
@@ -136,7 +136,7 @@ The flag displays correctly on the monitor, with the text "SOUTH AFRICA" in the 
 <img src="docs/assets/images/Attempt 1.jpeg">
 One of my first attempts<br><br>
 <img src="docs/assets/images/Attempt 2.jpeg">
-A few attempts later. Getting the white<br><br>
+A few attempts later. Getting the white borders in<br><br>
 <img src="docs/assets/images/Attempt 3.jpeg">
 Getting green and white to stretch across the full screen<br><br>
 <img src="docs/assets/images/Attempt 4.jpeg">
@@ -152,20 +152,20 @@ Final result<br><br>
 
 ### **Progress Report**
 **Week 1**: Template setup and understanding the VGA interface
-- I set up a Github repository and Github page for this project.
+- I set up a GitHub repository and GitHub page for this project.
 - I set up the Vivado project for the Basys 3, added the template sources (VGATop, VGASync and the colour module) and the constraints file, and generated a Clocking Wizard IP to produce the 25 MHz pixel clock.
 - I chose a design I was going to display on the VGA screen, the South African flag.
   
 **Week 2**: Drawing the flag
-- I uploading a photo of the flag onto a grid website that allowed me to create a 640x480 grid, to see the coordinates of each colour on the flag.
-- I tried to have each colour be placed based on the column and the row, later changing it to just 1 value, using the value X = 3*col + 4*d, which is constant along each diagonal edge, so each coloured band became a simple range.
+- I uploaded a photo of the flag onto a grid website that allowed me to create a 640x480 grid, to see the coordinates of each colour on the flag.
+- I tried to have each colour be placed based on the column and the row, later changing it to just 1 value, using the value ```X = 3*col + 4*d```, which is constant along each diagonal edge, so each coloured band became a simple range.
 - By the end of week 2, the basic shape and correct colouring was complete.
   
-**Week 3**: Adding the wave affect
+**Week 3**: Adding the wave effect
 - Created the text on the green band.
 - I added the button.
 - Created a phase counter that moves a sine-shaped offset across the screen, which shifts each column up or down. The offset is scaled by the column number so that the left hand side stays pinned like a flagpole.
-- Connected it to the button, the flag waves when the center button is pressed and goes flat when the button is released.
+- Connected it to the button, the flag waves when the centre button is pressed and goes flat when the button is released.
 
 **Week 4**: Write up and report
 - Wrote up my experience and results throughout this project with the help of AI
