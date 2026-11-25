@@ -146,7 +146,7 @@ Change to the correct colours and got the shape corrected<br><br>
 Added the text "SOUTH AFRICA"<br><br>
 <video controls>
   <source src="https://lowrands.github.io/SOC-Project-vertilog/docs/assets/images/Project%20video.mp4" type="video/mp4">
-</video><br><br>
-Final result
+</video>
+Final result<br><br>
 
 
