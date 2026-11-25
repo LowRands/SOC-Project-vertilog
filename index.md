@@ -13,7 +13,7 @@ I used a Basys 3 FPGA board and Verilog to draw the South African flag on a VGA 
 This project was created in Vivado as an RTL project trageting the Basys 3 board. The design flow was:
 - Add the verilog sources (VGATop, VGASync and VGASouthAfrica)
 - Add the Basys 3 constraint file
-- Generate a CLocking wizard IP (clk_wiz_2) to produce a 25 MHz pixel clock from the board's 100 MHz oscillator
+- Generate a Clocking wizard IP (clk_wiz_2) to produce a 25 MHz pixel clock from the board's 100 MHz oscillator
 - Run synthesis
 - Run implementation
 - Generate bitstream
