@@ -169,6 +169,6 @@ Final result<br><br>
 - I connected it to the button, the flag waves when the centre button is pressed and goes flat when the button is released.
 
 **Week 4**: Write up and report
-- I wrote up my experience and results throughout this project with the help of AI
+- I wrote up my experience and results throughout this project with the help of AI.
 - I added photos showing my progress, captions explaining and a video which showed the result of the completed project.
 
