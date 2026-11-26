@@ -160,15 +160,15 @@ Final result<br><br>
 **Week 2**: Drawing the flag
 - I uploaded a photo of the flag onto a grid website that allowed me to create a 640x480 grid, to see the coordinates of each colour on the flag.
 - I tried to have each colour be placed based on the column and the row, later changing it to just 1 value, using the value ``` X = 3*col + 4*d ```, which is constant along each diagonal edge, so each coloured band became a simple range.
-- By the end of week 2, the basic shape and correct colouring was complete.
+- By the end of week 2, the basic shape and correct colouring were complete.
   
 **Week 3**: Adding the wave effect
-- Created the text on the green band.
+- I created the text on the green band.
 - I added the button.
-- Created a phase counter that moves a sine-shaped offset across the screen, which shifts each column up or down. The offset is scaled by the column number so that the left hand side stays pinned like a flagpole.
-- Connected it to the button, the flag waves when the centre button is pressed and goes flat when the button is released.
+- I created a phase counter that moves a sine-shaped offset across the screen, which shifts each column up or down. The offset is scaled by the column number so that the left hand side stays pinned like a flagpole.
+- I connected it to the button, the flag waves when the centre button is pressed and goes flat when the button is released.
 
 **Week 4**: Write up and report
-- Wrote up my experience and results throughout this project with the help of AI
-- Added photos showing my progress, captions explaining and a video which showed the result of the completed project.
+- I wrote up my experience and results throughout this project with the help of AI
+- I added photos showing my progress, captions explaining and a video which showed the result of the completed project.
 
